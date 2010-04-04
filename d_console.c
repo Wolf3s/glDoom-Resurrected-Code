@@ -593,6 +593,7 @@ dboolean GodMode(char *cmd)
     else
        {
         NetCheat();
+		return false;
        }
     return false;
    }
@@ -620,7 +621,9 @@ dboolean FullAmmo(char *cmd)
     else
        {
         NetCheat();
+		return false;
        }
+	return false;
    }
 
 dboolean FullAmmoKeys(char *cmd)
@@ -651,6 +654,7 @@ dboolean FullAmmoKeys(char *cmd)
     else
        {
         NetCheat();
+		return false;
        }
     return false;
    }
@@ -673,6 +677,7 @@ dboolean NoClipping(char *cmd)
     else
        {
         NetCheat();
+		return false;
        }
     return false;
    }
@@ -775,6 +780,7 @@ dboolean GetPowerUp(char *cmd)
     else
        {
         NetCheat();
+		return false;
        }
     return false;
    }
@@ -995,6 +1001,7 @@ dboolean GiveItems(char *cmd)
     else
        {
         NetCheat();
+		return false;
        }
     return false;
    }
@@ -1018,6 +1025,7 @@ dboolean Choppers(char *cmd)
     else
        {
         NetCheat();
+		return false;
        }
     return false;
    }
