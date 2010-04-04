@@ -2154,11 +2154,23 @@
 			>
 		</File>
 		<File
+			RelativePath=".\doomflaw.txt"
+			>
+		</File>
+		<File
 			RelativePath="doomnet.txt"
 			>
 		</File>
 		<File
+			RelativePath=".\newlumps.txt"
+			>
+		</File>
+		<File
 			RelativePath=".\relnotes_94e.txt"
+			>
+		</File>
+		<File
+			RelativePath=".\TodoList.txt"
 			>
 		</File>
 	</Files>
