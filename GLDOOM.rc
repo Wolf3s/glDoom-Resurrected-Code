@@ -1,4 +1,4 @@
-//Microsoft Developer Studio generated resource script.
+// Microsoft Visual C++ generated resource script.
 //
 #include "resource.h"
 
@@ -21,15 +21,14 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
 #endif //_WIN32
 
-#ifndef _MAC
 /////////////////////////////////////////////////////////////////////////////
 //
 // Version
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,9,2,0
- PRODUCTVERSION 0,9,2,0
+ FILEVERSION 0,9,5,0
+ PRODUCTVERSION 0,9,5,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x29L
@@ -44,18 +43,18 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "Comments", "This program is FREEWARE.  If you paid for it, you paid too much.\0"
-            VALUE "CompanyName", "Bruce Lewis\0"
-            VALUE "FileDescription", "glDoom - Doom using OpenGL rendering\0"
-            VALUE "FileVersion", "0, 9, 2, 0\0"
-            VALUE "InternalName", "glDoom\0"
-            VALUE "LegalCopyright", "Copyright © 1998  - Bruce A. Lewis\0"
-            VALUE "LegalTrademarks", "Doom is a Trademark of id Software, Inc.; Doom is Copyright © 1993, id Software\0"
-            VALUE "OriginalFilename", "glDoom.exe\0"
-            VALUE "PrivateBuild", "092A\0"
-            VALUE "ProductName", "Bruce Lewis, glDoom\0"
-            VALUE "ProductVersion", "0, 9, 2, 0\0"
-            VALUE "SpecialBuild", "092A6\0"
+            VALUE "Comments", "This program is FREEWARE.  If you paid for it, you paid too much."
+            VALUE "CompanyName", "Bruce Lewis"
+            VALUE "FileDescription", "glDoom - Doom using OpenGL rendering"
+            VALUE "FileVersion", "0, 9, 5, 0"
+            VALUE "InternalName", "glDoom"
+            VALUE "LegalCopyright", "Copyright © 1998-2010  - Bruce A. Lewis"
+            VALUE "LegalTrademarks", "Doom is a Trademark of id Software, Inc.; Doom is Copyright © 1993, id Software"
+            VALUE "OriginalFilename", "glDoom.exe"
+            VALUE "PrivateBuild", "095A"
+            VALUE "ProductName", "Bruce Lewis, glDoom"
+            VALUE "ProductVersion", "0, 9, 5, 0"
+            VALUE "SpecialBuild", "095A3"
         END
     END
     BLOCK "VarFileInfo"
@@ -64,8 +63,6 @@ BEGIN
     END
 END
 
-#endif    // !_MAC
-
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -73,18 +70,18 @@ END
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE DISCARDABLE 
+1 TEXTINCLUDE 
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE DISCARDABLE 
+2 TEXTINCLUDE 
 BEGIN
     "#include ""afxres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE DISCARDABLE 
+3 TEXTINCLUDE 
 BEGIN
     "\r\n"
     "\0"
@@ -98,9 +95,9 @@ END
 // RAWIMAGE
 //
 
-GLDFONT                 RAWIMAGE DISCARDABLE    "gldfont.bin"
-INTERPIC                RAWIMAGE DISCARDABLE    "INTERPIC.bin"
-PLAYPAL                 RAWIMAGE DISCARDABLE    "Playpal.bin"
+GLDFONT                 RAWIMAGE                "gldfont.bin"
+INTERPIC                RAWIMAGE                "INTERPIC.bin"
+PLAYPAL                 RAWIMAGE                "Playpal.bin"
 #endif    // English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////
 

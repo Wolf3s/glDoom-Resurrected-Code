@@ -152,10 +152,10 @@ void P_LoadVertexes (int lump)
 
     // Copy and convert vertex coordinates,
     // internal representation as fixed.
-    for (i=0 ; i<numvertexes ; i++, li++, ml++)
+    for (i = 0 ; i < numvertexes ; i++, li++, ml++)
     {
-	li->x = SHORT(ml->x)<<FRACBITS;
-	li->y = SHORT(ml->y)<<FRACBITS;
+		li->x = SHORT(ml->x)<<FRACBITS;
+		li->y = SHORT(ml->y)<<FRACBITS;
     }
 
     // Free buffer memory.
@@ -184,23 +184,27 @@ void P_LoadSegs (int lump)
 	
     ml = (mapseg_t *)data;
     li = segs;
-    for (i=0 ; i<numsegs ; i++, li++, ml++)
+    for (i = 0 ; i < numsegs ; i++, li++, ml++)
     {
-	li->v1 = &vertexes[SHORT(ml->v1)];
-	li->v2 = &vertexes[SHORT(ml->v2)];
+		li->v1 = &vertexes[SHORT(ml->v1)];
+		li->v2 = &vertexes[SHORT(ml->v2)];
 					
-	li->angle = (SHORT(ml->angle))<<16;
-	li->offset = (SHORT(ml->offset))<<16;
-	linedef = SHORT(ml->linedef);
-	ldef = &lines[linedef];
-	li->linedef = ldef;
-	side = SHORT(ml->side);
-	li->sidedef = &sides[ldef->sidenum[side]];
-	li->frontsector = sides[ldef->sidenum[side]].sector;
-	if (ldef-> flags & ML_TWOSIDED)
-	    li->backsector = sides[ldef->sidenum[side^1]].sector;
-	else
-	    li->backsector = 0;
+		li->angle = (SHORT(ml->angle))<<16;
+		li->offset = (SHORT(ml->offset))<<16;
+		linedef = SHORT(ml->linedef);
+		ldef = &lines[linedef];
+		li->linedef = ldef;
+		side = SHORT(ml->side);
+		li->sidedef = &sides[ldef->sidenum[side]];
+		li->frontsector = sides[ldef->sidenum[side]].sector;
+		if (ldef-> flags & ML_TWOSIDED)
+		{
+		    li->backsector = sides[ldef->sidenum[side^1]].sector;
+		}
+		else
+		{
+			li->backsector = 0;
+		}
     }
 	
     Z_Free (data);
@@ -227,8 +231,8 @@ void P_LoadSubsectors (int lump)
     
     for (i=0 ; i<numsubsectors ; i++, ss++, ms++)
     {
-	ss->numlines = SHORT(ms->numsegs);
-	ss->firstline = SHORT(ms->firstseg);
+		ss->numlines = SHORT(ms->numsegs);
+		ss->firstline = SHORT(ms->firstseg);
     }
 	
     Z_Free (data);
@@ -253,18 +257,17 @@ void P_LoadSectors (int lump)
 	
     ms = (mapsector_t *)data;
     ss = sectors;
-    for (i=0 ; i<numsectors ; i++, ss++, ms++)
+    for (i = 0 ; i < numsectors ; i++, ss++, ms++)
     {
-	ss->floorheight = SHORT(ms->floorheight)<<FRACBITS;
-	ss->ceilingheight = SHORT(ms->ceilingheight)<<FRACBITS;
-	ss->floorpic = R_FlatNumForName(ms->floorpic);
-	ss->ceilingpic = R_FlatNumForName(ms->ceilingpic);
-	ss->lightlevel = SHORT(ms->lightlevel);
-	ss->special = SHORT(ms->special);
-	ss->tag = SHORT(ms->tag);
-	ss->thinglist = NULL;
+		ss->floorheight = SHORT(ms->floorheight)<<FRACBITS;
+		ss->ceilingheight = SHORT(ms->ceilingheight)<<FRACBITS;
+		ss->floorpic = R_FlatNumForName(ms->floorpic);
+		ss->ceilingpic = R_FlatNumForName(ms->ceilingpic);
+		ss->lightlevel = SHORT(ms->lightlevel);
+		ss->special = SHORT(ms->special);
+		ss->tag = SHORT(ms->tag);
+		ss->thinglist = NULL;
     }
-	
     Z_Free (data);
 }
 
@@ -288,18 +291,20 @@ void P_LoadNodes (int lump)
     mn = (mapnode_t *)data;
     no = nodes;
     
-    for (i=0 ; i<numnodes ; i++, no++, mn++)
+    for (i = 0 ; i < numnodes ; i++, no++, mn++)
     {
-	no->x = SHORT(mn->x)<<FRACBITS;
-	no->y = SHORT(mn->y)<<FRACBITS;
-	no->dx = SHORT(mn->dx)<<FRACBITS;
-	no->dy = SHORT(mn->dy)<<FRACBITS;
-	for (j=0 ; j<2 ; j++)
-	{
-	    no->children[j] = SHORT(mn->children[j]);
-	    for (k=0 ; k<4 ; k++)
-		no->bbox[j][k] = SHORT(mn->bbox[j][k])<<FRACBITS;
-	}
+		no->x = SHORT(mn->x)<<FRACBITS;
+		no->y = SHORT(mn->y)<<FRACBITS;
+		no->dx = SHORT(mn->dx)<<FRACBITS;
+		no->dy = SHORT(mn->dy)<<FRACBITS;
+		for (j = 0 ; j < 2 ; j++)
+		{
+			no->children[j] = SHORT(mn->children[j]);
+			for (k=0 ; k<4 ; k++)
+			{
+				no->bbox[j][k] = SHORT(mn->bbox[j][k])<<FRACBITS;
+			}
+		}
     }
 	
     Z_Free (data);
@@ -309,15 +314,17 @@ void P_LoadNodes (int lump)
 // P_LoadThings
 //
 void P_LoadThings (int lump)
-   {
-    byte*		data;
-    int			i;
+{
+    byte*			data;
+    int				i;
     mapthing_t*		mt;
-    int			numthings;
+    int				numthings;
     dboolean		spawn;
 
     for (i = 0; i < NUMMOBJTYPES; i++)
+	{
         SpritePresent[i] = 0;
+	}
 
     data = W_CacheLumpNum (lump,PU_STATIC);
     numthings = W_LumpLength (lump) / sizeof(mapthing_t);
@@ -325,7 +332,7 @@ void P_LoadThings (int lump)
 //    lfprintf( "Level contains %d things.\n", numthings);
 
     mt = (mapthing_t *)data;
-    for (i=0 ; i<numthings ; i++, mt++)
+    for (i = 0 ; i < numthings ; i++, mt++)
        {
         spawn = true;
 
@@ -349,7 +356,9 @@ void P_LoadThings (int lump)
                }
            }
         if (spawn == false)
+		{
             break;
+		}
 
         // Do spawn all other stuff. 
         mt->x = SHORT(mt->x);
@@ -380,79 +389,94 @@ void P_LoadThings (int lump)
 //
 void P_LoadLineDefs (int lump)
 {
-    byte*		data;
-    int			i;
-    maplinedef_t*	mld;
-    line_t*		ld;
-    vertex_t*		v1;
-    vertex_t*		v2;
-	
-    numlines = W_LumpLength (lump) / sizeof(maplinedef_t);
-    lines = Z_Malloc (numlines*sizeof(line_t),PU_LEVEL,0);
-    memset (lines, 0, numlines*sizeof(line_t));
-    data = W_CacheLumpNum (lump,PU_STATIC);
-	
-    mld = (maplinedef_t *)data;
-    ld = lines;
-    for (i=0 ; i<numlines ; i++, mld++, ld++)
-    {
-	ld->flags = SHORT(mld->flags);
-	ld->special = SHORT(mld->special);
-	ld->tag = SHORT(mld->tag);
-	v1 = ld->v1 = &vertexes[SHORT(mld->v1)];
-	v2 = ld->v2 = &vertexes[SHORT(mld->v2)];
-	ld->dx = v2->x - v1->x;
-	ld->dy = v2->y - v1->y;
-	
-	if (!ld->dx)
-	    ld->slopetype = ST_VERTICAL;
-	else if (!ld->dy)
-	    ld->slopetype = ST_HORIZONTAL;
-	else
+	byte*			 data;
+	int				 i;
+	maplinedef_t	*mld;
+	line_t*			 ld;
+	vertex_t*		 v1;
+	vertex_t*		 v2;
+
+	numlines = W_LumpLength (lump) / sizeof(maplinedef_t);
+	lines = Z_Malloc (numlines*sizeof(line_t),PU_LEVEL,0);
+	memset (lines, 0, numlines*sizeof(line_t));
+	data = W_CacheLumpNum (lump,PU_STATIC);
+
+	mld = (maplinedef_t *)data;
+	ld = lines;
+	for (i = 0 ; i < numlines ; i++, mld++, ld++)
 	{
-	    if (FixedDiv (ld->dy , ld->dx) > 0)
-		ld->slopetype = ST_POSITIVE;
-	    else
-		ld->slopetype = ST_NEGATIVE;
-	}
-		
-	if (v1->x < v2->x)
-	{
-	    ld->bbox[BOXLEFT] = v1->x;
-	    ld->bbox[BOXRIGHT] = v2->x;
-	}
-	else
-	{
-	    ld->bbox[BOXLEFT] = v2->x;
-	    ld->bbox[BOXRIGHT] = v1->x;
+		ld->flags = SHORT(mld->flags);
+		ld->special = SHORT(mld->special);
+		ld->tag = SHORT(mld->tag);
+		v1 = ld->v1 = &vertexes[SHORT(mld->v1)];
+		v2 = ld->v2 = &vertexes[SHORT(mld->v2)];
+		ld->dx = v2->x - v1->x;
+		ld->dy = v2->y - v1->y;
+
+		if (!ld->dx)
+		{
+			ld->slopetype = ST_VERTICAL;
+		}
+		else
+		{
+			if (!ld->dy)
+			{
+				ld->slopetype = ST_HORIZONTAL;
+			}
+			else
+			{
+				if (FixedDiv (ld->dy , ld->dx) > 0)
+					ld->slopetype = ST_POSITIVE;
+				else
+					ld->slopetype = ST_NEGATIVE;
+			}
+		}
+
+		if (v1->x < v2->x)
+		{
+			ld->bbox[BOXLEFT] = v1->x;
+			ld->bbox[BOXRIGHT] = v2->x;
+		}
+		else
+		{
+			ld->bbox[BOXLEFT] = v2->x;
+			ld->bbox[BOXRIGHT] = v1->x;
+		}
+
+		if (v1->y < v2->y)
+		{
+			ld->bbox[BOXBOTTOM] = v1->y;
+			ld->bbox[BOXTOP] = v2->y;
+		}
+		else
+		{
+			ld->bbox[BOXBOTTOM] = v2->y;
+			ld->bbox[BOXTOP] = v1->y;
+		}
+
+		ld->sidenum[0] = SHORT(mld->sidenum[0]);
+		ld->sidenum[1] = SHORT(mld->sidenum[1]);
+
+		if (ld->sidenum[0] != -1)
+		{
+			ld->frontsector = sides[ld->sidenum[0]].sector;
+		}
+		else
+		{
+			ld->frontsector = 0;
+		}
+
+		if (ld->sidenum[1] != -1)
+		{
+			ld->backsector = sides[ld->sidenum[1]].sector;
+		}
+		else
+		{
+			ld->backsector = 0;
+		}
 	}
 
-	if (v1->y < v2->y)
-	{
-	    ld->bbox[BOXBOTTOM] = v1->y;
-	    ld->bbox[BOXTOP] = v2->y;
-	}
-	else
-	{
-	    ld->bbox[BOXBOTTOM] = v2->y;
-	    ld->bbox[BOXTOP] = v1->y;
-	}
-
-	ld->sidenum[0] = SHORT(mld->sidenum[0]);
-	ld->sidenum[1] = SHORT(mld->sidenum[1]);
-
-	if (ld->sidenum[0] != -1)
-	    ld->frontsector = sides[ld->sidenum[0]].sector;
-	else
-	    ld->frontsector = 0;
-
-	if (ld->sidenum[1] != -1)
-	    ld->backsector = sides[ld->sidenum[1]].sector;
-	else
-	    ld->backsector = 0;
-    }
-	
-    Z_Free (data);
+	Z_Free (data);
 }
 
 //
@@ -460,10 +484,10 @@ void P_LoadLineDefs (int lump)
 //
 void P_LoadSideDefs (int lump)
 {
-    byte*		data;
-    int			i;
-    mapsidedef_t*	msd;
-    side_t*		sd;
+    byte*			 data;
+    int				 i;
+    mapsidedef_t	*msd;
+    side_t*			 sd;
 	
     numsides = W_LumpLength (lump) / sizeof(mapsidedef_t);
     sides = Z_Malloc (numsides*sizeof(side_t),PU_LEVEL,0);	
@@ -492,8 +516,8 @@ void P_LoadSideDefs (int lump)
 //
 void P_LoadBlockMap (int lump)
 {
-    int		i;
-    int		count;
+    int	i;
+    int	count;
 	
     blockmaplump = W_CacheLumpNum (lump,PU_LEVEL);
     blockmap = blockmaplump+4;
@@ -522,32 +546,32 @@ void P_LoadBlockMap (int lump)
 //
 void P_GroupLines (void)
 {
-    line_t**		linebuffer;
-    int			i;
-    int			j;
-    int			total;
-    line_t*		li;
-    sector_t*		sector;
-    subsector_t*	ss;
-    seg_t*		seg;
-    fixed_t		bbox[4];
-    int			block;
+    line_t		**linebuffer;
+    int			  i;
+    int			  j;
+    int			  total;
+    line_t*		  li;
+    sector_t	 *sector;
+    subsector_t	 *ss;
+    seg_t		 *seg;
+    fixed_t		  bbox[4];
+    int			  block;
 	
     // look up sector number for each subsector
     ss = subsectors;
-    for (i=0 ; i<numsubsectors ; i++, ss++)
+    for (i = 0 ; i < numsubsectors ; i++, ss++)
     {
-	seg = &segs[ss->firstline];
-	ss->sector = seg->sidedef->sector;
+		seg = &segs[ss->firstline];
+		ss->sector = seg->sidedef->sector;
     }
 
     // count number of lines in each sector
     li = lines;
     total = 0;
-    for (i=0 ; i<numlines ; i++, li++)
+    for (i = 0 ; i < numlines ; i++, li++)
     {
-	total++;
-	li->frontsector->linecount++;
+		total++;
+		li->frontsector->linecount++;
 
 	if (li->backsector && li->backsector != li->frontsector)
 	{
@@ -559,45 +583,46 @@ void P_GroupLines (void)
     // build line tables for each sector	
     linebuffer = Z_Malloc (total*4, PU_LEVEL, 0);
     sector = sectors;
-    for (i=0 ; i<numsectors ; i++, sector++)
+    for (i = 0 ; i < numsectors ; i++, sector++)
     {
-	M_ClearBox (bbox);
-	sector->lines = linebuffer;
-	li = lines;
-	for (j=0 ; j<numlines ; j++, li++)
-	{
-	    if (li->frontsector == sector || li->backsector == sector)
-	    {
-		*linebuffer++ = li;
-		M_AddToBox (bbox, li->v1->x, li->v1->y);
-		M_AddToBox (bbox, li->v2->x, li->v2->y);
-	    }
-	}
-	if (linebuffer - sector->lines != sector->linecount)
-	    I_Error ("P_GroupLines: miscounted");
+		M_ClearBox(bbox);
+		sector->lines = linebuffer;
+		li = lines;
+		for (j = 0 ; j < numlines ; j++, li++)
+		{
+			if (li->frontsector == sector || li->backsector == sector)
+			{
+				*linebuffer++ = li;
+				M_AddToBox (bbox, li->v1->x, li->v1->y);
+				M_AddToBox (bbox, li->v2->x, li->v2->y);
+			}
+		}
+		if (linebuffer - sector->lines != sector->linecount)
+		{
+			I_Error("P_GroupLines: miscounted");
+		}
 			
-	// set the degenmobj_t to the middle of the bounding box
-	sector->soundorg.x = (bbox[BOXRIGHT]+bbox[BOXLEFT])/2;
-	sector->soundorg.y = (bbox[BOXTOP]+bbox[BOXBOTTOM])/2;
+		// set the degenmobj_t to the middle of the bounding box
+		sector->soundorg.x = (bbox[BOXRIGHT]+bbox[BOXLEFT])/2;
+		sector->soundorg.y = (bbox[BOXTOP]+bbox[BOXBOTTOM])/2;
 		
-	// adjust bounding box to map blocks
-	block = (bbox[BOXTOP]-bmaporgy+MAXRADIUS)>>MAPBLOCKSHIFT;
-	block = block >= bmapheight ? bmapheight-1 : block;
-	sector->blockbox[BOXTOP]=block;
+		// adjust bounding box to map blocks
+		block = (bbox[BOXTOP]-bmaporgy+MAXRADIUS)>>MAPBLOCKSHIFT;
+		block = block >= bmapheight ? bmapheight-1 : block;
+		sector->blockbox[BOXTOP]=block;
 
-	block = (bbox[BOXBOTTOM]-bmaporgy-MAXRADIUS)>>MAPBLOCKSHIFT;
-	block = block < 0 ? 0 : block;
-	sector->blockbox[BOXBOTTOM]=block;
+		block = (bbox[BOXBOTTOM]-bmaporgy-MAXRADIUS)>>MAPBLOCKSHIFT;
+		block = block < 0 ? 0 : block;
+		sector->blockbox[BOXBOTTOM]=block;
 
-	block = (bbox[BOXRIGHT]-bmaporgx+MAXRADIUS)>>MAPBLOCKSHIFT;
-	block = block >= bmapwidth ? bmapwidth-1 : block;
-	sector->blockbox[BOXRIGHT]=block;
+		block = (bbox[BOXRIGHT]-bmaporgx+MAXRADIUS)>>MAPBLOCKSHIFT;
+		block = block >= bmapwidth ? bmapwidth-1 : block;
+		sector->blockbox[BOXRIGHT]=block;
 
-	block = (bbox[BOXLEFT]-bmaporgx-MAXRADIUS)>>MAPBLOCKSHIFT;
-	block = block < 0 ? 0 : block;
-	sector->blockbox[BOXLEFT]=block;
-    }
-	
+		block = (bbox[BOXLEFT]-bmaporgx-MAXRADIUS)>>MAPBLOCKSHIFT;
+		block = block < 0 ? 0 : block;
+		sector->blockbox[BOXLEFT]=block;
+	}
 }
 
 void  Build3DLevel(void);
@@ -606,12 +631,7 @@ void  BuildThingList(void);
 //
 // P_SetupLevel
 //
-void
-P_SetupLevel
-( int		episode,
-  int		map,
-  int		playermask,
-  skill_t	skill)
+void P_SetupLevel( int episode, int map, int playermask, skill_t skill)
 {
     int		i;
     char	lumpname[9];
@@ -619,10 +639,9 @@ P_SetupLevel
 	
     totalkills = totalitems = totalsecret = wminfo.maxfrags = 0;
     wminfo.partime = 180;
-    for (i=0 ; i<MAXPLAYERS ; i++)
+    for (i = 0 ; i < MAXPLAYERS ; i++)
     {
-	players[i].killcount = players[i].secretcount 
-	    = players[i].itemcount = 0;
+		players[i].killcount = players[i].secretcount = players[i].itemcount = 0;
     }
 
     // Initial height of PointOfView
@@ -630,7 +649,7 @@ P_SetupLevel
     players[consoleplayer].viewz = 1; 
 
     // Make sure all sounds are stopped before Z_FreeTags.
-    S_Start ();			
+    S_Start();			
 
     
 #if 0 // UNUSED
@@ -642,31 +661,35 @@ P_SetupLevel
     else
 #endif
        {
-	Z_FreeTags (PU_LEVEL, PU_PURGELEVEL-1);
+		Z_FreeTags (PU_LEVEL, PU_PURGELEVEL-1);
        }
 
 
     // UNUSED W_Profile ();
-    P_InitThinkers ();
+    P_InitThinkers();
 
     // if working with a devlopment map, reload it
-    W_Reload ();			
+    W_Reload();			
 	   
     // find map name
     if ( gamemode == commercial)
     {
-	if (map<10)
-	    sprintf (lumpname,"map0%i", map);
-	else
-	    sprintf (lumpname,"map%i", map);
+		if (map < 10)
+		{
+			sprintf (lumpname,"map0%i", map);
+		}
+		else
+		{
+		    sprintf (lumpname,"map%i", map);
+		}
     }
     else
     {
-	lumpname[0] = 'E';
-	lumpname[1] = '0' + episode;
-	lumpname[2] = 'M';
-	lumpname[3] = '0' + map;
-	lumpname[4] = 0;
+		lumpname[0] = 'E';
+		lumpname[1] = '0' + episode;
+		lumpname[2] = 'M';
+		lumpname[3] = '0' + map;
+		lumpname[4] = 0;
     }
 
     lumpnum = W_GetNumForName (lumpname);
@@ -694,13 +717,14 @@ P_SetupLevel
     // if deathmatch, randomly spawn the active players
     if (deathmatch)
     {
-	for (i=0 ; i<MAXPLAYERS ; i++)
-	    if (playeringame[i])
-	    {
-		players[i].mo = NULL;
-		G_DeathMatchSpawnPlayer (i);
-	    }
-			
+		for (i = 0; i < MAXPLAYERS; i++)
+		{
+		    if (playeringame[i])
+			{
+				players[i].mo = NULL;
+				G_DeathMatchSpawnPlayer (i);
+			}
+		}
     }
 
     // clear special respawning que
@@ -721,9 +745,7 @@ P_SetupLevel
     //BuildThingList();
 
     Build3DLevel();
-
     //printf ("free memory: 0x%x\n", Z_FreeMemory());
-
 }
 
 
@@ -751,9 +773,9 @@ RECT              *SectorBBox = 0;
 
 drawside_t        *DrawSide = 0;
 dboolean              *DrawFlat = 0;
+dboolean              *DrawFlats = 0;
 
-ml_vec3_t         *Normal = 0;
-//DW_Vertex3Dv      *Normal = 0;
+DW_Vertex3Dv      *Normal = 0;
 DW_Polygon        *PolyList = 0;
 DW_FloorCeil      *FloorList = 0;
 DW_FloorCeil      *CeilList = 0;
@@ -837,9 +859,9 @@ void NormalVector(float x1, float y1, float x2, float y2, int side)
     else
        d = 1.0f / (float)sqrt(d);
 
-    Normal[side][0] = n[0] * d;
-    Normal[side][1] = 0.0f;
-    Normal[side][2] = n[2] * d;
+    Normal[side].v[0] = n[0] * d;
+    Normal[side].v[1] = 0.0f;
+    Normal[side].v[2] = n[2] * d;
    }
 
 // Original Doom geometry data...
@@ -1325,8 +1347,10 @@ void CreateNewWalls()
     PolyCount = 0;
 
     if (Normal != 0)
+	{
        free(Normal);
-    Normal = (ml_vec3_t *)malloc(sizeof(ml_vec3_t)*numsides);
+	}
+    Normal = (DW_Vertex3Dv *)malloc(sizeof(DW_Vertex3Dv)*numsides);
 
     if (DrawSide != 0)
         free(DrawSide);
@@ -1348,9 +1372,9 @@ void CreateNewWalls()
         if (lines[line].sidenum[1] >= 0) // We have a side 2
            {
             // If two sided, then invert the normal for the other side...
-            Normal[lines[line].sidenum[1]][0] = Normal[lines[line].sidenum[0]][0] * -1;
-            Normal[lines[line].sidenum[1]][1] = Normal[lines[line].sidenum[0]][1] * -1;
-            Normal[lines[line].sidenum[1]][2] = Normal[lines[line].sidenum[0]][2] * -1;
+            Normal[lines[line].sidenum[1]].v[0] = Normal[lines[line].sidenum[0]].v[0] * -1;
+            Normal[lines[line].sidenum[1]].v[1] = Normal[lines[line].sidenum[0]].v[1] * -1;
+            Normal[lines[line].sidenum[1]].v[2] = Normal[lines[line].sidenum[0]].v[2] * -1;
 
             Sector2 = sides[lines[line].sidenum[1]].sectornumb;
             Ceil2   = (float)(sides[lines[line].sidenum[1]].sector->ceilingheight>>FRACBITS);
@@ -3453,7 +3477,7 @@ void AlignVertices()
 
 void CreateNewFlats()
    {
-    static int          sector, line, side1, side2, section, side, l1, l2, lc, fc, cc;
+    static int          sector, subsector, line, side1, side2, section, side, l1, l2, lc, fc, cc;
     static int          seg;
     static bspvert_t    v[2];
     static linelist_t  *linelist;
@@ -3711,6 +3735,16 @@ void CreateNewFlats()
         DrawFlat[sector] = false;
        }
     lastsectors = numsectors;
+
+    if (NULL != DrawFlats)
+	{
+        free(DrawFlats);
+	}
+    DrawFlats = (dboolean *)malloc(sizeof(dboolean)*numsubsectors);
+    for (subsector = 0; subsector < numsubsectors; subsector++)
+       {
+        DrawFlats[subsector] = false;
+       }
    }
 
 
