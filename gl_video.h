@@ -4,7 +4,7 @@
 #include <windows.h>
 #include "doomtype.h"
 
-#define GL_MAX_EXT     128                    // How many extensions will we allow?
+#define GL_MAX_EXT     256                    // How many extensions will we allow?
 
 typedef enum { gl_2d, gl_3d } glmode_t;
 dboolean StartUpOpenGL( HWND hWnd );
